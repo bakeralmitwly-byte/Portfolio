@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>بكر المتولي — مخرج وصانع أفلام</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --black: #000000;
+            --deep: #080808;
+            --surface: #0f0f0f;
+            --border: #1c1c1c;
+            --border-light: #2a2a2a;
+            --text-primary: #f0f0f0;
+            --text-secondary: #888888;
+            --text-dim: #444444;
+            --accent: #c8c8c8;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-weight: 400;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.35;
+        }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: #333; }
+
+        /* ===== LAYOUT ===== */
+        .wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== TOPBAR ===== */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, transparent 100%);
+        }
+
+        .topbar-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .topbar-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        .topbar-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .topbar-links a:hover {
+            color: var(--white);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            padding: 120px 40px 80px 0;
+        }
+
+        .hero-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .hero-name {
+            font-size: clamp(3.5rem, 7vw, 6.5rem);
+            font-weight: 900;
+            line-height: 1.0;
+            color: var(--white);
+            margin-bottom: 28px;
+            letter-spacing: -1px;
+        }
+
+        .hero-bio {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 480px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            border-right: 2px solid var(--border-light);
+            padding-right: 18px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid var(--white);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-secondary);
+            color: var(--white);
+        }
+
+        .hero-image {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: contrast(1.1) brightness(0.75) grayscale(0.15);
+        }
+
+        /* Diagonal cut on the image */
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to left, transparent 60%, var(--black) 100%);
+            z-index: 1;
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to top, var(--black), transparent);
+            z-index: 1;
+        }
+
+        /* ===== SECTION COMMON ===== */
+        .project-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-number {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .project-tag {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .project-title {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 0;
+            line-height: 1.1;
+        }
+
+        .project-header {
+            margin-bottom: 28px;
+        }
+
+        .project-body { display: contents; }
+
+        .project-story {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.85;
+            max-width: 640px;
+        }
+
+        .project-story p {
+            margin-bottom: 16px;
+        }
+
+        .project-story p:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-meta {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.82rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .meta-row:last-child {
+            border-bottom: none;
+        }
+
+        .meta-key {
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+
+        .meta-val {
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        /* ===== MEDIA GALLERY ===== */
+        
+
+        /* YouTube embed */
+        .main-video-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .main-video-wrapper iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* شبكة صور الكواليس */
+        .bts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 28px;
+        }
+
+        .bts-item {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            background: var(--surface);
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .bts-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.12) brightness(0.78) saturate(0.85);
+            transition: filter 0.5s ease, transform 0.6s ease;
+            display: block;
+        }
+
+        /* Cinematic vignette + bottom fade */
+        .bts-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%),
+                linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .bts-item:hover img {
+            filter: contrast(1.18) brightness(0.92) saturate(1.0);
+            transform: scale(1.05);
+        }
+
+        .bts-item::before {
+            transition: opacity 0.5s;
+        }
+
+        .bts-item:hover::before {
+            opacity: 0.7;
+        }
+
+        /* شريط لوغوهات العملاء */
+        .logo-strip {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 28px;
+            padding: 24px 0 0 0;
+            align-items: center;
+            border-top: none;
+            margin-top: 0;
+        }
+
+        .logo-strip-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        .client-logo {
+            height: 110px;
+            width: 110px;
+            object-fit: contain;
+            filter: brightness(0) invert(0.8);
+            transition: filter 0.3s, transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .client-logo:hover {
+            filter: brightness(0) invert(1);
+            transform: scale(1.07);
+        }
+
+        .client-logo.wide {
+            width: auto;
+            max-width: 200px;
+            height: 100px;
+        }
+
+        .logo-strip .client-logo.solo {
+            height: 130px;
+            width: 130px;
+        }
+
+        /* ===== DIVIDER LINE ===== */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 0 0 40px 0;
+        }
+
+        .section-divider span {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ===== CINEMATIC END SECTION ===== */
+        .end-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 56vw; /* taller than 16:9 to breathe */
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .end-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.1) brightness(0.38) grayscale(0.25);
+            display: block;
+        }
+
+        .end-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, var(--black) 0%, transparent 18%),
+                linear-gradient(to top,    var(--black) 0%, transparent 18%);
+        }
+
+        .end-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .end-about {
+            padding-bottom: 60px;
+        }
+
+        .end-about-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 28px;
+        }
+
+        .end-about .about-text {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.7);
+            font-weight: 300;
+            line-height: 1.9;
+            max-width: 620px;
+        }
+
+        .end-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+            margin-bottom: 48px;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* ===== ABOUT (old - unused) ===== */
+        .about-section {
+            display: none;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.85;
+        }
+
+        .about-text p {
+            margin-bottom: 18px;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .footer-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.08) brightness(0.5) grayscale(0.2);
+            display: block;
+        }
+
+        .footer-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.88) 0%,
+                rgba(0,0,0,0.25) 55%,
+                transparent 100%
+            );
+            pointer-events: none;
+        }
+
+        footer {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-copy {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        @media (max-width: 900px) {
+            .footer-wrapper { aspect-ratio: 4 / 3; }
+            footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+
+        /* ===== SPECTO SECTION ===== */
+        .award-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            padding: 5px 12px;
+            border-radius: 2px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .hero-content {
+                padding: 120px 0 40px 0;
+                order: 2;
+            }
+
+            .hero-image {
+                height: 65vw;
+                order: 1;
+            }
+
+            .hero-image::before {
+                background: linear-gradient(to top, var(--black) 0%, transparent 50%);
+            }
+
+            .project-body { display: contents; }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .topbar {
+                padding: 16px 20px;
+            }
+
+            .topbar-links {
+                display: none;
+            }
+
+
+
+            .bts-grid {
+                grid-template-columns: 1fr;
+            }
+            .project-story {
+                max-width: 100%;
+            }
+        }
+    
+        /* ══════════════════════════════════════
+           ANIMATIONS & 3D
+        ══════════════════════════════════════ */
+
+        /* Scroll progress bar */
+        .scroll-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 2px;
+            width: 0%;
+            background: rgba(255,255,255,0.7);
+            z-index: 999;
+            transition: width 0.08s linear;
+            pointer-events: none;
+        }
+
+        /* ── Hero entrance ── */
+        .hero-label,
+        .hero-name,
+        .hero-bio,
+        .hero-cta {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+        .hero-image img {
+            opacity: 0;
+            transform: scale(1.08) translateY(0px);
+            transition: filter 0.5s ease, transform 0.15s linear;
+        }
+
+        @keyframes heroFadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes heroImgIn {
+            to { opacity: 1; transform: scale(1.06) translateY(0px); }
+        }
+
+        .hero-loaded .hero-label { animation: heroFadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; }
+        .hero-loaded .hero-name  { animation: heroFadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.28s forwards; }
+        .hero-loaded .hero-bio   { animation: heroFadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.44s forwards; }
+        .hero-loaded .hero-cta   { animation: heroFadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.58s forwards; }
+        .hero-loaded .hero-image img { animation: heroImgIn 1.4s cubic-bezier(0.16,1,0.3,1) 0.1s forwards; }
+
+        /* ── Project section reveals ── */
+        .project-number {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .project-tag {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s 0.08s ease, transform 0.5s 0.08s ease;
+        }
+        .project-title {
+            overflow: hidden;
+        }
+        .title-inner {
+            display: block;
+            transform: translateY(105%);
+            transition: transform 0.75s cubic-bezier(0.16,1,0.3,1) 0.14s;
+        }
+        .logo-strip {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.6s 0.22s ease, transform 0.6s 0.22s ease;
+        }
+        .project-story {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.75s 0.18s ease, transform 0.75s 0.18s ease;
+        }
+        .main-video-wrapper {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s 0.3s ease, transform 0.7s 0.3s ease;
+        }
+        .bts-item {
+            opacity: 0;
+            transform: translateY(28px) scale(0.97);
+            will-change: transform, opacity;
+            transition:
+                opacity 0.75s ease,
+                transform 0.75s cubic-bezier(0.16,1,0.3,1);
+        }
+        .bts-item:nth-child(2) {
+            transition-delay: 0.13s;
+        }
+
+        /* logos entrance */
+        .client-logo {
+            opacity: 0;
+            transform: scale(0.82);
+            transition:
+                opacity    0.55s ease,
+                transform  0.55s cubic-bezier(0.16,1,0.3,1),
+                filter     0.3s ease;
+        }
+        .client-logo:nth-child(1) { transition-delay: 0.12s; }
+        .client-logo:nth-child(2) { transition-delay: 0.22s; }
+        .client-logo:nth-child(3) { transition-delay: 0.32s; }
+        .client-logo:nth-child(4) { transition-delay: 0.42s; }
+        .client-logo:nth-child(5) { transition-delay: 0.52s; }
+
+        /* award badge */
+        .award-badge {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s 0.06s ease, transform 0.5s 0.06s ease;
+        }
+
+        /* in-view = fire everything */
+        .in-view .project-number  { opacity: 1; transform: none; }
+        .in-view .project-tag     { opacity: 1; transform: none; }
+        .in-view .title-inner     { transform: none; }
+        .in-view .logo-strip      { opacity: 1; transform: none; }
+        .in-view .project-story   { opacity: 1; transform: none; }
+        .in-view .main-video-wrapper { opacity: 1; transform: none; }
+        .in-view .bts-item        { opacity: 1; transform: none; }
+        .in-view .client-logo     {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+        .in-view .client-logo:hover { transform: scale(1.07) !important; }
+        .in-view .award-badge     { opacity: 1; transform: none; }
+
+        /* end section */
+        .end-about-label {
+            opacity: 0; transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .end-about .about-text {
+            opacity: 0; transform: translateY(22px);
+            transition: opacity 0.75s 0.15s ease, transform 0.75s 0.15s ease;
+        }
+        .end-wrapper.in-view .end-about-label { opacity: 1; transform: none; }
+        .end-wrapper.in-view .end-about .about-text { opacity: 1; transform: none; }
+
+        /* ── 3D tilt (applied via JS) ── */
+        .bts-item {
+            transform-style: preserve-3d;
+            transition:
+                opacity     0.75s ease,
+                transform   0.75s cubic-bezier(0.16,1,0.3,1);
+        }
+        .bts-item.tilt-active {
+            transition: transform 0.08s linear !important;
+        }
+        .bts-item.tilt-reset {
+            transition: transform 0.55s cubic-bezier(0.16,1,0.3,1) !important;
+        }
+
+        /* ── Topbar scroll state ── */
+        .topbar.scrolled {
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .topbar { transition: background 0.3s ease; }
+
+        /* ── Magnetic buttons ── */
+        .btn { transition: all 0.2s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+
+        /* LTR overrides */
+        [dir="ltr"] .hero-content {
+            padding: 120px 0 80px 40px;
+            padding-right: 0;
+        }
+        [dir="ltr"] .hero-image::before {
+            background: linear-gradient(to right, transparent 60%, var(--black) 100%);
+        }
+        [dir="ltr"] .hero-bio {
+            border-right: none;
+            border-left: 2px solid var(--border-light);
+            padding-right: 0;
+            padding-left: 18px;
+        }
+        [dir="ltr"] .hero-content {
+            padding-left: max(40px, calc((100vw - 1120px)/2 + 24px));
+            padding-right: 24px;
+        }
+        .lang-toggle {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 5px 12px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+        .lang-toggle:hover {
+            border-color: var(--white);
+            color: var(--white);
+        }
+</style>
+</head>
+<body>
+<!-- Topbar -->
+<nav class="topbar">
+<span class="topbar-name" data-i18n="nav-name">بكر المتولي</span>
+<div class="topbar-links">
+<a data-i18n="nav-works" href="#projects">الأعمال</a>
+<a data-i18n="nav-about" href="#about">عني</a>
+<a data-i18n="nav-contact" href="#contact">التواصل</a>
+<button class="lang-toggle" onclick="toggleLang()">EN</button></div>
+</nav>
+<!-- Hero -->
+<section class="hero">
+<div class="hero-content wrap" style="max-width:none; padding-right: max(40px, calc((100vw - 1120px)/2 + 24px)); padding-left: 24px;">
+<span class="hero-label" data-i18n="hero-label">سجل الأعمال — ٢٠٢٦</span>
+<h1 class="hero-name">بكر<br/>المتولي</h1>
+<p class="hero-bio" data-i18n="hero-bio">صناعة الأفلام والإدارة الإبداعية مش مجرد كاميرا ولقطات حلوة، هي قدرة على حل التحديات البصرية ودمج الهويات. كمهندس برمجيات ومخرج، بجمع بين الهيكلة الدقيقة والبعد النفسي للكادر. شغلي بيركز على النزول للميدان والاحتكاك بالواقع لتقديم أعمال بصرية بتوصل الرسالة بوضوح، بعيدا عن التزييف أو الاستعراض.</p>
+<div class="hero-cta">
+<a class="btn btn-primary" data-i18n="btn-view" href="#projects">عرض الأعمال</a>
+<a class="btn btn-secondary" data-i18n="btn-cta" href="https://wa.me/962799313907" target="_blank">تواصل معي</a>
+</div>
+</div>
+<div class="hero-image">
+<img src="images/pfp.png"/>
+</div>
+</section>
+<!-- Projects -->
+<div class="wrap" id="projects">
+<!-- 01 — غداً الإعدام -->
+<!-- 02 — حسنة للإنتاج -->
+<!-- 03 — FOLG -->
+<!-- 04 — DD Content Hub -->
+<!-- 05 — مسابقة روبو فايت -->
+<!-- 06 — iTeam -->
+<!-- 07 — وسيطكم -->
+<!-- 08 — Specto / ICDL -->
+<!-- 09 — Mentora -->
+<!-- About -->
+<!-- Footer -->
+<section class="project-section">
+<div class="project-header">
+<span class="project-number">٠١</span>
+<div class="award-badge" data-i18n="p01-badge">🏆 الأول في الأردن | الثاني عربيا</div>
+<span class="project-tag" data-i18n="p01-tag">مسابقة وميض للأفلام القصيرة | سينما واقعية</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p01-title">غدا الإعدام</span></h2>
+</div>
+<div class="project-story">
+<p data-i18n="p01-s1">الصراع هون مش خارجي، كله بالعمق. بهاي التجربة بمسابقة وميض للأفلام القصيرة، التحدي الإخراجي كان كيف ننقل العبء الوجودي بصريا وبدون ما نلطف المشهد. استخدمنا التباين الحاد بالصورة، <strong style="color: var(--white);">وحصل على المركز الأول في الأردن والثاني عربيا</strong> بين مصر وتونس.</p>
+<p data-i18n="p01-s2">كمخرج، هاد الفيلم بيعكس نظرتي للسينما الواقعية اللي ما بتدور على اللقطات المريحة، بل بتركز على نقل الحالة النفسية الخام للمشاهد.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p01-mk1">الدور</span>
+<span class="meta-val" data-i18n="p01-mv1">سيناريو وإخراج</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p01-mk2">المسابقة</span>
+<span class="meta-val" data-i18n="p01-mv2">وميض للأفلام القصيرة</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p01-mk3">الإنجاز</span>
+<span class="meta-val" data-i18n="p01-mv3">الأول أردنيا، الثاني عربيا</span>
+</div>
+</div>
+</div><div class="main-video-wrapper">
+<iframe allowfullscreen="" src="https://www.youtube.com/embed/zRuO2rmcy3k" title="غدا الإعدام"></iframe>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس غدا الإعدام" src="images/exec-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس غدا الإعدام" src="images/exec-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٢</span>
+<span class="project-tag" data-i18n="p02-tag">إخراج مرئي | إنتاج</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p02-title">حسنة للإنتاج</span></h2>
+<div class="logo-strip" style="border-top:none; margin-top:16px; padding-top:0;">
+<span class="logo-strip-label">العميل</span>
+<img alt="حسنة للإنتاج" class="client-logo" src="images/logo-hasana.png"/>
+<img alt="سجال" class="client-logo" src="images/logo-sijal.png"/>
+<img alt="قوافل" class="client-logo" src="images/logo-qawafil.png"/>
+<img alt="ملهم" class="client-logo" src="images/logo-mulham.png"/>
+</div></div>
+<div class="project-story">
+<p data-i18n="p02-s1">الشغل هون ما كان بس يلا نصور. كان لازم نخلق هوية بصرية وVibe متكامل لكل برنامج ليعكس شخصيته. ببرامج زي سجال وقوافل وملهم، اشتغلت على الـ Creative Lighting عشان أعطي عمق نفسي للحوار.</p>
+<p data-i18n="p02-s2">بالكواليس، كل تفصيل وإضاءة كانت مدروسة لتخدم الفكرة وتطلع الشغل بوزن ثقيل، والأهم يوصل للناس بالشكل الصح اللي بيترك أثر.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p02-mk1">الدور</span>
+<span class="meta-val" data-i18n="p02-mv1">إنتاج مرئي وإشراف</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p02-mk2">البرامج</span>
+<span class="meta-val" data-i18n="p02-mv2">سجال، قوافل، ملهم</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس حسنة" src="images/hasana-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس حسنة" src="images/hasana-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٣</span>
+<span class="project-tag" data-i18n="p03-tag">إعادة بناء هوية | إنتاج محتوى</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p03-title">Specto</span></h2>
+<div class="logo-strip" style="border-top:none; margin-top:16px; padding-top:0;">
+<img alt="Specto" class="client-logo" src="images/logo-specto.png"/>
+<img alt="ICDL" class="client-logo" src="images/logo-icdl.png"/>
+</div></div>
+<div class="project-story">
+<p data-i18n="p03-s1">بتعرفوا حركة لما الأستاذ يسأل سؤال والكل ينزل راسه ويعمل حاله بكتب عشان ما يجاوب؟ هاد بالضبط اللي صار أول ما شغلنا الكاميرا بالمدارس لتصوير حملة ICDL. من طالب مدرسة بياخذ نفس الشهادة، رجعت اليوم أشتغل عليها وأعمل Rebranding كامل لهويتها مع Specto.</p>
+<p data-i18n="p03-s2">التحدي الإخراجي كان كسر الجمود البصري للمدارس. وظفنا الـ Creative Lighting عشان نطلع بصورة سينمائية من قلب الصفوف والمختبرات بدون ما نخرب هيبة المكان. الشغل ما وقف على فيديوهات؛ شملنا بوسترات، تصميم، وحملة إعلانية كاملة.</p>
+<p>ومن جهة ثانية، أصعب إشي بتسويق دورة UI/UX، إنو عين المتابع رح تقيم الـ UI لحملتك البصرية قبل الدورة نفسها. استلمنا حملة مشتركة بين Specto والجامعة الألمانية الأردنية GJU. التحدي كان دمج الثقل الأكاديمي للجامعة مع روح التكنولوجيا لسبيكتو، وبنينا Vibe بصري بيعكس هوية الطرفين بصورة متزنة ومدروسة.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p03-mk1">الدور</span>
+<span class="meta-val" data-i18n="p03-mv1">إدارة العمل، إعادة بناء الهوية</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p03-mk2">العملاء</span>
+<span class="meta-val" data-i18n="p03-mv2">ICDL الأردن، GJU</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس Specto" src="images/specto-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس Specto" src="images/specto-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٤</span>
+<span class="project-tag" data-i18n="p04-tag">حملة محتوى | تسويق خفي</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p04-title">FOLG</span></h2>
+<div class="logo-strip" style="border-top:none; margin-top:16px; padding-top:0;">
+<span class="logo-strip-label">العميل</span>
+<img alt="FOLG" class="client-logo" src="images/logo-folg.png"/>
+<img alt="البديل" class="client-logo" src="images/logo-albadeel.png"/>
+</div></div>
+<div class="project-story">
+<p data-i18n="p04-s1">التسويق الخفي هو إنك تبيع بدون ما تحسس الناس إنك بتبيع. اشتغلنا على حملة محتوى للمنتجات، والتحدي الإخراجي كان دمج الرسالة التسويقية جوا القيمة اللي بنقدمها.</p>
+<p data-i18n="p04-s2">المتلقي بيتفاعل مع الفيديو بشكل طبيعي كأنه بيحضر محتوى مش إعلان. لغة الشارع والميدان هي اللي بتكسب دايما وبتبني الثقة بين البراند والجمهور.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p04-mk1">الدور</span>
+<span class="meta-val" data-i18n="p04-mv1">إدارة محتوى وتسويق خفي</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس FOLG" src="images/folg-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس FOLG" src="images/folg-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٥</span>
+<span class="project-tag" data-i18n="p05-tag">سلسلة محتوى | تسويق واقعي</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p05-title">DD Content Hub</span></h2>
+<div class="logo-strip" style="border-top:none; margin-top:16px; padding-top:0;">
+<span class="logo-strip-label">العميل</span>
+<img alt="DD Content Hub" class="client-logo" src="images/logo-dd.png"/>
+</div></div>
+<div class="project-story">
+<p data-i18n="p05-s1">سلسلة محتوى بنيتها لهدف تسويقي شخصي بحت؛ كنت بدي أجيب عملاء جداد لشغلي في التصوير، واستخدمت فكرة اشتري بيجو كطعم ومحور للسلسلة.</p>
+<p data-i18n="p05-s2">نزلنا عالميدان وعملنا محتوى تفاعلي عفوي قريب من الشارع. السلسلة نجحت وجابت تفاعل عضوي ممتاز، لأنها لفتت انتباه الناس والعملاء بأسلوب حقيقي ما فيه تصنع، وأثبتت إن المحتوى الصادق بيجيب شغل أكثر من أي إعلان تقليدي.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p05-mk1">الدور</span>
+<span class="meta-val" data-i18n="p05-mv1">إخراج محتوى وتسويق واقعي</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p05-mk2">النوع</span>
+<span class="meta-val" data-i18n="p05-mv2">محتوى تفاعلي</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس DD" src="images/dd-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس DD" src="images/dd-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٦</span>
+<span class="project-tag" data-i18n="p06-tag">سلسلة محتوى | توثيق وتغطية</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p06-title">مسابقة روبو فايت</span></h2>
+</div>
+<div class="project-story">
+<p data-i18n="p06-s1">بينما كان كل فريق بالمسابقة مشغول بتركيب قطع الروبوت، شفت قصة لازم تتوثق. بدأت أسجل كواليس تعبنا، إحباطنا، واللحظات اللي نجحنا فيها. السلسلة ما كانت مجرد تغطية ناشفة لمسابقة، كانت سرد ليوميات فريق بيحاول ينجز من الصفر.</p>
+<p data-i18n="p06-s2">هذا الأسلوب القصصي في المحتوى ميزنا بوضوح عن باقي الفرق، ولفت انتباه السوق لدرجة إنه جابلنا رعايات ودعم من شركات قوية راهنت علينا بسبب القصة اللي عاشوها معنا بالفيديوهات.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p06-mk1">الأسلوب</span>
+<span class="meta-val" data-i18n="p06-mv1">توثيق مباشر وتغطية</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p06-mk2">الموضوع</span>
+<span class="meta-val" data-i18n="p06-mv2">تطوير الروبوتات</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس روبو فايت" src="images/bus-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس روبو فايت" src="images/bus-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٧</span>
+<span class="project-tag" data-i18n="p07-tag">إدارة فريق | تدريب وتطوير</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p07-title">iTeam</span></h2>
+<div class="logo-strip" style="border-top:none; margin-top:16px; padding-top:0;">
+<img alt="iTeam" class="client-logo" src="images/logo-iteam.png"/>
+</div></div>
+<div class="project-story">
+<p data-i18n="p07-s1">استلمت قائد فريق للسوشال ميديا، وهون الاحتكاك مع الناس كان بشكل يومي. اشتغلنا على الهوية البصرية، والأهم كان تدريب الفريق من خلال دورات بالتصوير والتصميم وفهم السوق.</p>
+<p data-i18n="p07-s2">أحلى إشي بهاي التجربة لما تشوف شباب من اللي دربتهم مسكوا خط وتخصصوا وكملوا بالمجال بكل احترافية، وهاد هو الأثر الحقيقي للشغل.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p07-mk1">الدور</span>
+<span class="meta-val" data-i18n="p07-mv1">قائد فريق وإدارة</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p07-mk2">المنصة</span>
+<span class="meta-val" data-i18n="p07-mv2">سوشال ميديا</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس iTeam" src="images/iteam-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس iTeam" src="images/iteam-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٨</span>
+<span class="project-tag" data-i18n="p08-tag">حملة انطلاق | محتوى موجه</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p08-title">Mentora</span></h2>
+<div class="logo-strip" style="border-top:none; margin-top:16px; padding-top:0;">
+<img alt="Mentora" class="client-logo solo" src="images/logo-mentora.png"/>
+</div></div>
+<div class="project-story">
+<p data-i18n="p08-s1">طلاب بيشرحوا لطلاب، فكرة بسيطة بس بدها إخراج ذكي يوصل للفئة المستهدفة. بحملة الانطلاق، فصلنا المحتوى ليكون مخصص لطلاب الجامعات ويحاكي جوهم.</p>
+<p data-i18n="p08-s2">التحدي كان إنو كل طالب يشوف حاله ومواقفه اليومية جوا الفيديو، وهاد اللي صار وخلى الناس تحب المحتوى وتتفاعل معه بشكل عضوي وسريع.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p08-mk1">الدور</span>
+<span class="meta-val" data-i18n="p08-mv1">حملة انطلاق</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p08-mk2">النوع</span>
+<span class="meta-val" data-i18n="p08-mv2">محتوى موجه لطلاب الجامعات</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس Mentora" src="images/mentora-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس Mentora" src="images/mentora-bts2.jpg"/></div>
+</div></section><section class="project-section">
+<div class="project-header">
+<span class="project-number">٠٩</span>
+<span class="project-tag" data-i18n="p09-tag">هوية بصرية | محتوى إعلاني</span>
+<h2 class="project-title"><span class="title-inner" data-i18n="p09-title">وسيطكم</span></h2>
+<div class="logo-strip" style="border-top:none; margin-top:16px; padding-top:0;">
+<img alt="وسيطكم" class="client-logo" src="images/logo-wasitkom.png"/>
+</div></div>
+<div class="project-story">
+<p data-i18n="p09-s1">بناء الهوية البصرية للبراند وهوية الفيديوهات كان تحدي ممتع. دمجنا بين الإعلانات المباشرة وبين محتوى الترند اللي كان ضارب وقتها عشان نوصل لأكبر شريحة.</p>
+<p data-i18n="p09-s2">بالميدان، هالتجربة علمتني كثير عن متطلبات السوق الحقيقية، وكيف أكتب عروض مالية وفنية وأجيب رعايات، وأفهم عقلية العميل بعيدا عن النظريات.</p>
+<div class="project-meta">
+<div class="meta-row">
+<span class="meta-key" data-i18n="p09-mk1">الدور</span>
+<span class="meta-val" data-i18n="p09-mv1">هوية بصرية وتسويق مرئي</span>
+</div>
+<div class="meta-row">
+<span class="meta-key" data-i18n="p09-mk2">النوع</span>
+<span class="meta-val" data-i18n="p09-mv2">محتوى إعلاني وترند</span>
+</div>
+</div>
+</div><div class="bts-grid">
+<div class="bts-item"><img alt="كواليس وسيطكم" src="images/wasitkom-bts1.jpg"/></div>
+<div class="bts-item"><img alt="كواليس وسيطكم" src="images/wasitkom-bts2.jpg"/></div>
+</div></section>
+<div class="end-wrapper">
+<img alt="" class="end-bg" src="images/footer-bg.jpg"/>
+<div class="end-overlay"></div>
+<div class="end-content">
+<section class="end-about">
+<span class="end-about-label" data-i18n="end-label">عني</span>
+<p class="about-text" data-i18n="end-about" style="max-width: 680px;">لطالما آمنت بمقولة: بالأمس كنت ذكيا فأردت أن أغير العالم, اليوم أنا حكيم ولذلك سأغير نفسي.<br/><br/>في رحلتي بين هندسة البرمجيات وصناعة المحتوى, لا ارى نفسي خبيرا في كل شي, بل ارى نفسي طالبا دائم الفضول. التخصص في مجال واحد امان, لكن التوسع في مجالات مختلفة هو ما يمنحنا زوايا رؤية جديدة ومن هنا ينتج الابداع...</p>
+</section>
+<div class="end-divider"></div>
+<footer id="contact">
+<span class="footer-copy" data-i18n="footer-copy">© 2026 بكر المتولي — جميع الحقوق محفوظة</span>
+<div class="footer-links">
+<a href="mailto:bakeralmitwly@gmail.com">bakeralmitwly@gmail.com</a>
+<a href="https://wa.me/962799112787" target="_blank">واتساب</a>
+</div>
+</footer>
+</div>
+</div></div>
+<script>
+(function() {
+
+  /* ── Scroll progress bar ── */
+  const bar = document.createElement('div');
+  bar.className = 'scroll-bar';
+  document.body.prepend(bar);
+
+  /* ── Hero entrance ── */
+  window.addEventListener('load', () => {
+    document.querySelector('.hero')?.classList.add('hero-loaded');
+  });
+
+  /* ── Topbar scroll state ── */
+  const topbar = document.querySelector('.topbar');
+  window.addEventListener('scroll', () => {
+    const st = window.scrollY;
+
+    /* progress bar */
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (docH > 0 ? (st / docH) * 100 : 0) + '%';
+
+    /* topbar */
+    topbar?.classList.toggle('scrolled', st > 60);
+
+    /* hero parallax */
+    const heroImg = document.querySelector('.hero-image img');
+    if (heroImg && st < window.innerHeight * 1.2) {
+      const shift = st * 0.22;
+      heroImg.style.transform = `scale(1.06) translateY(${shift}px)`;
+    }
+  }, { passive: true });
+
+  /* ── IntersectionObserver — section reveals ── */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.project-section, .end-wrapper').forEach(s => revealObs.observe(s));
+
+  /* ── 3D tilt on BTS items ── */
+  document.querySelectorAll('.bts-item').forEach(item => {
+    item.addEventListener('mousemove', e => {
+      const r  = item.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top  + r.height / 2;
+      const dx = (e.clientX - cx) / (r.width  / 2);
+      const dy = (e.clientY - cy) / (r.height / 2);
+      const rX = -dy * 9;
+      const rY =  dx * 9;
+      item.classList.add('tilt-active');
+      item.classList.remove('tilt-reset');
+      item.style.transform = `perspective(900px) rotateX(${rX}deg) rotateY(${rY}deg) scale(1.03)`;
+    });
+
+    item.addEventListener('mouseleave', () => {
+      item.classList.remove('tilt-active');
+      item.classList.add('tilt-reset');
+      item.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+      setTimeout(() => item.classList.remove('tilt-reset'), 600);
+    });
+  });
+
+  /* ── Magnetic buttons ── */
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r  = btn.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width  / 2) * 0.28;
+      const dy = (e.clientY - r.top  - r.height / 2) * 0.28;
+      btn.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  /* ── Client logo hover lift (already in-view) ── */
+  document.querySelectorAll('.client-logo').forEach(logo => {
+    logo.addEventListener('mouseenter', () => {
+      logo.style.transform = 'scale(1.1) translateY(-4px)';
+      logo.style.filter    = 'brightness(0) invert(1)';
+    });
+    logo.addEventListener('mouseleave', () => {
+      logo.style.transform = 'scale(1)';
+      logo.style.filter    = '';
+    });
+  });
+
+})();
+</script><script>
+const T = {"nav-name": {"ar": "بكر المتولي", "en": "Bakr Al-Mitwali"}, "nav-works": {"ar": "الأعمال", "en": "Work"}, "nav-about": {"ar": "عني", "en": "About"}, "nav-contact": {"ar": "التواصل", "en": "Contact"}, "hero-label": {"ar": "سجل الأعمال — ٢٠٢٦", "en": "Portfolio — 2026"}, "hero-bio": {"ar": "صناعة الأفلام والإدارة الإبداعية مش مجرد كاميرا ولقطات حلوة، هي قدرة على حل التحديات البصرية ودمج الهويات. كمهندس برمجيات ومخرج، بجمع بين الهيكلة الدقيقة والبعد النفسي للكادر. شغلي بيركز على النزول للميدان والاحتكاك بالواقع لتقديم أعمال بصرية بتوصل الرسالة بوضوح، بعيدا عن التزييف أو الاستعراض.", "en": "Filmmaking and creative direction isn't just cameras and nice shots. It's about solving visual problems and building identities. As a software engineer and director, I combine precise structure with psychological depth. I work close to the ground, close to reality — delivering visual work that communicates clearly, without pretense."}, "btn-view": {"ar": "عرض الأعمال", "en": "View Work"}, "btn-cta": {"ar": "تواصل معي", "en": "Get in Touch"}, "p01-tag": {"ar": "مسابقة وميض للأفلام القصيرة | سينما واقعية", "en": "Wamidh Short Film Competition | Realistic Cinema"}, "p01-title": {"ar": "غدا الإعدام", "en": "Tomorrow, Execution"}, "p01-badge": {"ar": "🏆 الأول في الأردن | الثاني عربيا", "en": "🏆 1st in Jordan | 2nd in the Arab World"}, "p01-s1": {"ar": "الصراع هون مش خارجي، كله بالعمق. بهاي التجربة بمسابقة وميض للأفلام القصيرة، التحدي الإخراجي كان كيف ننقل العبء الوجودي بصريا وبدون ما نلطف المشهد. استخدمنا التباين الحاد بالصورة، <strong style=\"color: var(--white);\">وحصل على المركز الأول في الأردن والثاني عربيا</strong> بين مصر وتونس.", "en": "The conflict in this film isn't external — it lives beneath the surface. In Wamidh Short Film Competition, the challenge was translating existential weight into images without softening anything. Sharp visual contrast throughout. <strong style=\"color: var(--white);\">It won 1st place in Jordan and 2nd in the Arab world</strong>, competing against Egypt and Tunisia."}, "p01-s2": {"ar": "كمخرج، هاد الفيلم بيعكس نظرتي للسينما الواقعية اللي ما بتدور على اللقطات المريحة، بل بتركز على نقل الحالة النفسية الخام للمشاهد.", "en": "As a director, this film reflects how I approach realistic cinema — not hunting for comfortable shots, but transferring the raw psychological state directly to the viewer."}, "p01-mk1": {"ar": "الدور", "en": "Role"}, "p01-mv1": {"ar": "سيناريو وإخراج", "en": "Script & Direction"}, "p01-mk2": {"ar": "المسابقة", "en": "Competition"}, "p01-mv2": {"ar": "وميض للأفلام القصيرة", "en": "Wamidh Short Film"}, "p01-mk3": {"ar": "الإنجاز", "en": "Achievement"}, "p01-mv3": {"ar": "الأول أردنيا، الثاني عربيا", "en": "1st Jordan, 2nd Arab World"}, "p02-tag": {"ar": "إخراج مرئي | إنتاج", "en": "Visual Direction | Production"}, "p02-title": {"ar": "حسنة للإنتاج", "en": "Hasana Production"}, "p02-s1": {"ar": "الشغل هون ما كان بس يلا نصور. كان لازم نخلق هوية بصرية وVibe متكامل لكل برنامج ليعكس شخصيته. ببرامج زي سجال وقوافل وملهم، اشتغلت على الـ Creative Lighting عشان أعطي عمق نفسي للحوار.", "en": "The work here wasn't just 'go shoot.' We had to build a full visual identity and vibe for each show to reflect its character. On Sijal, Qawafil, and Mulham, I worked the creative lighting to give real psychological depth to the conversation."}, "p02-s2": {"ar": "بالكواليس، كل تفصيل وإضاءة كانت مدروسة لتخدم الفكرة وتطلع الشغل بوزن ثقيل، والأهم يوصل للناس بالشكل الصح اللي بيترك أثر.", "en": "Behind the scenes, every detail and every light was intentional — designed to serve the idea and give the work real weight. The goal: reach people in a way that actually sticks."}, "p02-mk1": {"ar": "الدور", "en": "Role"}, "p02-mv1": {"ar": "إنتاج مرئي وإشراف", "en": "Visual Production & Supervision"}, "p02-mk2": {"ar": "البرامج", "en": "Shows"}, "p02-mv2": {"ar": "سجال، قوافل، ملهم", "en": "Sijal, Qawafil, Mulham"}, "p03-tag": {"ar": "إدارة إعلامية | Creative Lead", "en": "Media Direction | Creative Lead"}, "p03-title": {"ar": "Specto", "en": "Specto"}, "p03-s1": {"ar": "التحدي الإخراجي كان كسر الجمود البصري للمدارس. وظفنا الـ Creative Lighting عشان نطلع بصورة سينمائية من قلب الصفوف والمختبرات بدون ما نخرب هيبة المكان. الشغل ما وقف على فيديوهات؛ شملنا بوسترات، تصميم، وحملة إعلانية كاملة.", "en": "The directorial challenge was breaking the visual stiffness of academic spaces. We used creative lighting to pull cinematic imagery out of classrooms and labs without losing the environment's dignity. The work went beyond video — posters, design, and a full ad campaign."}, "p03-s2": {"ar": "ومن جهة ثانية، أصعب إشي بتسويق دورة UI/UX، إنو عين المتابع رح تقيم الـ UI لحملتك البصرية قبل الدورة نفسها. استلمنا حملة مشتركة بين Specto والجامعة الألمانية الأردنية GJU. التحدي كان دمج الثقل الأكاديمي للجامعة مع روح التكنولوجيا لسبيكتو، وبنينا Vibe بصري بيعكس هوية الطرفين بصورة متزنة ومدروسة.", "en": "On another front: the hardest thing about marketing a UI/UX course is that viewers judge your campaign's UI before the course itself. We handled a joint campaign between Specto and GJU. The challenge was merging the university's academic weight with Specto's tech energy — a visual identity that represents both sides without compromising either."}, "p03-mk1": {"ar": "الدور", "en": "Role"}, "p03-mv1": {"ar": "إدارة العمل، إعادة بناء الهوية", "en": "Direction & Identity Rebuild"}, "p03-mk2": {"ar": "العملاء", "en": "Clients"}, "p03-mv2": {"ar": "ICDL الأردن، GJU", "en": "ICDL Jordan, GJU"}, "p04-tag": {"ar": "حملة محتوى | تسويق خفي", "en": "Content Campaign | Stealth Marketing"}, "p04-title": {"ar": "FOLG", "en": "FOLG"}, "p04-s1": {"ar": "التسويق الخفي هو إنك تبيع بدون ما تحسس الناس إنك بتبيع. اشتغلنا على حملة محتوى للمنتجات، والتحدي الإخراجي كان دمج الرسالة التسويقية جوا القيمة اللي بنقدمها.", "en": "Stealth marketing is selling without making people feel sold to. We built a content campaign for the products where the challenge was embedding the marketing message inside the actual value we were delivering."}, "p04-s2": {"ar": "المتلقي بيتفاعل مع الفيديو بشكل طبيعي كأنه بيحضر محتوى مش إعلان. لغة الشارع والميدان هي اللي بتكسب دايما وبتبني الثقة بين البراند والجمهور.", "en": "The viewer engages naturally — watching content, not an ad. Street-level language always wins because it builds genuine trust between the brand and the audience."}, "p04-mk1": {"ar": "الدور", "en": "Role"}, "p04-mv1": {"ar": "إدارة محتوى وتسويق خفي", "en": "Content Direction & Stealth Marketing"}, "p05-tag": {"ar": "سلسلة محتوى | تسويق واقعي", "en": "Content Series | Street Marketing"}, "p05-title": {"ar": "DD Content Hub", "en": "DD Content Hub"}, "p05-s1": {"ar": "سلسلة محتوى بنيتها لهدف تسويقي شخصي بحت؛ كنت بدي أجيب عملاء جداد لشغلي في التصوير، واستخدمت فكرة اشتري بيجو كطعم ومحور للسلسلة.", "en": "A content series I built for a very personal marketing goal: I wanted new clients for my photography work, so I used the idea of buying a Peugeot as the hook and central thread."}, "p05-s2": {"ar": "نزلنا عالميدان وعملنا محتوى تفاعلي عفوي قريب من الشارع. السلسلة نجحت وجابت تفاعل عضوي ممتاز، لأنها لفتت انتباه الناس والعملاء بأسلوب حقيقي ما فيه تصنع، وأثبتت إن المحتوى الصادق بيجيب شغل أكثر من أي إعلان تقليدي.", "en": "We went to the streets and made spontaneous, interactive content close to everyday life. Great organic engagement followed — because it caught people's attention honestly, with no pretense. Authentic content brings in more work than any traditional ad."}, "p05-mk1": {"ar": "الدور", "en": "Role"}, "p05-mv1": {"ar": "إخراج محتوى وتسويق واقعي", "en": "Content Direction & Street Marketing"}, "p05-mk2": {"ar": "النوع", "en": "Type"}, "p05-mv2": {"ar": "محتوى تفاعلي", "en": "Interactive Content"}, "p06-tag": {"ar": "سلسلة محتوى | توثيق وتغطية", "en": "Content Series | Documentation"}, "p06-title": {"ar": "مسابقة روبو فايت", "en": "RoboFight Competition"}, "p06-s1": {"ar": "بينما كان كل فريق بالمسابقة مشغول بتركيب قطع الروبوت، شفت قصة لازم تتوثق. بدأت أسجل كواليس تعبنا، إحباطنا، واللحظات اللي نجحنا فيها. السلسلة ما كانت مجرد تغطية ناشفة لمسابقة، كانت سرد ليوميات فريق بيحاول ينجز من الصفر.", "en": "While every team was busy assembling robot parts, I saw a story that needed to be told. I started documenting the exhaustion, the setbacks, and the moments we actually pulled it off. This wasn't dry competition coverage — it was a daily log of a team trying to build something from scratch."}, "p06-s2": {"ar": "هذا الأسلوب القصصي في المحتوى ميزنا بوضوح عن باقي الفرق، ولفت انتباه السوق لدرجة إنه جابلنا رعايات ودعم من شركات قوية راهنت علينا بسبب القصة اللي عاشوها معنا بالفيديوهات.", "en": "That storytelling approach set us apart, and it caught the market's attention enough to bring us sponsorships from serious companies — companies that bet on us because of the story they experienced through our videos."}, "p06-mk1": {"ar": "الأسلوب", "en": "Approach"}, "p06-mv1": {"ar": "توثيق مباشر وتغطية", "en": "Direct Documentation"}, "p06-mk2": {"ar": "الموضوع", "en": "Subject"}, "p06-mv2": {"ar": "تطوير الروبوتات", "en": "Robotics Development"}, "p07-tag": {"ar": "إدارة فريق | تدريب وتطوير", "en": "Team Lead | Training & Development"}, "p07-title": {"ar": "iTeam", "en": "iTeam"}, "p07-s1": {"ar": "استلمت قائد فريق للسوشال ميديا، وهون الاحتكاك مع الناس كان بشكل يومي. اشتغلنا على الهوية البصرية، والأهم كان تدريب الفريق من خلال دورات بالتصوير والتصميم وفهم السوق.", "en": "I took over as social media team lead, with daily direct contact with people. We worked on the visual identity, but the most important part was training the team through courses in photography, design, and market understanding."}, "p07-s2": {"ar": "أحلى إشي بهاي التجربة لما تشوف شباب من اللي دربتهم مسكوا خط وتخصصوا وكملوا بالمجال بكل احترافية، وهاد هو الأثر الحقيقي للشغل.", "en": "The best part was watching the people I trained find their direction and go on to work professionally in the field. That's the real impact of the work."}, "p07-mk1": {"ar": "الدور", "en": "Role"}, "p07-mv1": {"ar": "قائد فريق وإدارة", "en": "Team Lead & Management"}, "p07-mk2": {"ar": "المنصة", "en": "Platform"}, "p07-mv2": {"ar": "سوشال ميديا", "en": "Social Media"}, "p08-tag": {"ar": "حملة انطلاق | محتوى موجه", "en": "Launch Campaign | Targeted Content"}, "p08-title": {"ar": "Mentora", "en": "Mentora"}, "p08-s1": {"ar": "طلاب بيشرحوا لطلاب، فكرة بسيطة بس بدها إخراج ذكي يوصل للفئة المستهدفة. بحملة الانطلاق، فصلنا المحتوى ليكون مخصص لطلاب الجامعات ويحاكي جوهم.", "en": "Students explaining to students — simple idea, but it needed smart direction to reach the right audience. For the launch campaign, we tailored everything specifically for university students to mirror their actual environment."}, "p08-s2": {"ar": "التحدي كان إنو كل طالب يشوف حاله ومواقفه اليومية جوا الفيديو، وهاد اللي صار وخلى الناس تحب المحتوى وتتفاعل معه بشكل عضوي وسريع.", "en": "The challenge was making every student see themselves and their daily situations inside the video. That's exactly what happened — and it's what drove fast, organic engagement."}, "p08-mk1": {"ar": "الدور", "en": "Role"}, "p08-mv1": {"ar": "حملة انطلاق", "en": "Launch Campaign"}, "p08-mk2": {"ar": "النوع", "en": "Type"}, "p08-mv2": {"ar": "محتوى موجه لطلاب الجامعات", "en": "University Student Content"}, "p09-tag": {"ar": "هوية بصرية | محتوى إعلاني", "en": "Brand Identity | Ad Content"}, "p09-title": {"ar": "وسيطكم", "en": "Wasitkom"}, "p09-s1": {"ar": "بناء الهوية البصرية للبراند وهوية الفيديوهات كان تحدي ممتع. دمجنا بين الإعلانات المباشرة وبين محتوى الترند اللي كان ضارب وقتها عشان نوصل لأكبر شريحة.", "en": "Building the brand and video identity was a genuinely interesting challenge. We blended direct ads with trending content formats that were performing at the time to reach the widest possible audience."}, "p09-s2": {"ar": "بالميدان، هالتجربة علمتني كثير عن متطلبات السوق الحقيقية، وكيف أكتب عروض مالية وفنية وأجيب رعايات، وأفهم عقلية العميل بعيدا عن النظريات.", "en": "On the ground, this experience taught me how to write financial and technical proposals, bring in sponsorships, and understand the client's mindset — away from theory."}, "p09-mk1": {"ar": "الدور", "en": "Role"}, "p09-mv1": {"ar": "هوية بصرية وتسويق مرئي", "en": "Brand Identity & Visual Marketing"}, "p09-mk2": {"ar": "النوع", "en": "Type"}, "p09-mv2": {"ar": "محتوى إعلاني وترند", "en": "Ad Content & Trending Formats"}, "end-label": {"ar": "عني", "en": "About"}, "end-about": {"ar": "لطالما آمنت بمقولة: بالأمس كنت ذكيا فأردت أن أغير العالم, اليوم أنا حكيم ولذلك سأغير نفسي.<br/><br/>في رحلتي بين هندسة البرمجيات وصناعة المحتوى, لا ارى نفسي خبيرا في كل شي, بل ارى نفسي طالبا دائم الفضول. التخصص في مجال واحد امان, لكن التوسع في مجالات مختلفة هو ما يمنحنا زوايا رؤية جديدة ومن هنا ينتج الابداع...", "en": "I've always believed: yesterday I was smart and wanted to change the world. Today I'm wiser, so I'll change myself.<br/><br/>In my journey between software engineering and content production, I don't see myself as an expert in everything — I'm a permanently curious student. Specializing in one field is safe, but expanding into different fields gives you new angles of vision, and that's where creativity comes from."}, "footer-copy": {"ar": "© 2026 بكر المتولي — جميع الحقوق محفوظة", "en": "© 2026 Bakr Al-Mitwali — All rights reserved"}};
+let currentLang = 'ar';
+
+function toggleLang() {
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  const isEn = currentLang === 'en';
+
+  // flip dir + lang
+  document.documentElement.setAttribute('dir', isEn ? 'ltr' : 'rtl');
+  document.documentElement.setAttribute('lang', isEn ? 'en' : 'ar');
+
+  // toggle button label
+  document.querySelector('.lang-toggle').textContent = isEn ? 'عربي' : 'EN';
+
+  // apply translations
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (!T[key]) return;
+    const text = T[key][currentLang];
+    if (text === undefined) return;
+    // use innerHTML for story paragraphs (may have <strong>)
+    if (el.tagName === 'P' || el.classList.contains('about-text')) {
+      el.innerHTML = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+}
+</script></body>
+</html>
